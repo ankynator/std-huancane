@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex flex-column justify-content-center d-flex align-items-center" style="height: 50vh;">
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <h1 class="mb-4">Tramite documentario</h1>
+            <div class="form-group">
+                {{ form.number_of_file(class='form-control', placeholder="Numero de expediente") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class='btn btn-block btn-primary') }}
+            </div>
+        </form>
+
+        <a href="{{ url_for('register_file_page') }}" class="btn ">Iniciar nuevo tramite</a>
+
+    </div>
+{% endblock %}

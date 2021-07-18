@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register File
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex flex-column justify-content-center d-flex align-items-center" style="height: 50vh;">
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <h1 class="mb-4">Registro de nuevo tramite</h1>
+            <div class="form-group">
+                {{ form.number_of_file(class='form-control', placeholder="Numero de expediente") }}
+            </div>
+            <div class="form-group">
+                {{ form.name_of_file(class='form-control', placeholder="Titulo de expediente") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class='btn btn-block btn-primary') }}
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

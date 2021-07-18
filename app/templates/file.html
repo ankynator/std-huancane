@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    File Page
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex flex-column justify-content-center d-flex align-items-center" style="height: 50vh;">
+        <h1>Tu numero de solicitud: {{ attempend_file.number_file }}</h1>
+        <h1>Titulo de tu solicitud: {{ attempend_file.name_file }}</h1>
+    </div>
+{% endblock %}
