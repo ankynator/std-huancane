@@ -1,3 +1,4 @@
+import datetime
 from app import app
 from flask import render_template, redirect, url_for, flash
 from app.models import File
@@ -28,14 +29,29 @@ def register_file_page():
     form = RegisterFileForm()
 
     if form.validate_on_submit():
-        file_to_create = File(number_file=form.number_of_file.data,
-                              name_file=form.name_of_file.data)
+        files_numbers = db.session.query(File.file_number_format)
+        all_numbers = files_numbers.all()
+        if all_numbers == []:
+            last_number = 0
+        else:
+            last_number = all_numbers[len(all_numbers)-1]
+            last_number = int(last_number[0])
+
+        file_to_create = File(file_number=last_number,
+                              file_user_name=form.file_user_name.data,
+                              file_user_dni=form.file_user_dni.data,
+                              file_user_phone=form.file_user_phone.data,
+                              file_user_email=form.file_user_email.data,
+                              file_subject=form.file_subject.data,
+                              file_justification=form.file_justification.data)
 
         db.session.add(file_to_create)
         db.session.commit()
 
         flash(f'Registrado con exito!', category='success')
-        return redirect(url_for('files_page'))
+        # return redirect(url_for('view_file_page', number_of_file=file_to_create.number_file))
+        return redirect(url_for('view_file_page', file_number=file_to_create.file_number_format))
+
     
     if form.errors != {}:
         for err_message in form.errors.values():
@@ -43,11 +59,14 @@ def register_file_page():
 
     return render_template('register_file.html', form=form)
 
-@app.route('/file/<number_of_file>')
-def view_file_page(number_of_file):
-    attempend_file = File.query.filter_by(number_file=number_of_file).first()
+@app.route('/file/<file_number>')
+def view_file_page(file_number):
+    attempend_file = File.query.filter_by(file_number_format=file_number).first()
+    date_and_time = attempend_file.file_date
+    only_time = datetime.datetime.strftime(date_and_time, '%H:%M:%S')
+    only_date = datetime.datetime.strftime(date_and_time, '%Y/%m/%d:')
 
-    return render_template('file.html', attempend_file=attempend_file)
+    return render_template('file.html', attempend_file=attempend_file, time=only_time, date=only_date)
 
 
 @app.route('/files')

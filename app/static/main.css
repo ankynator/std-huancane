@@ -1,3 +1,13 @@
+/* Custom */
+
+.form-control {
+    padding: 2px;
+    height: 2.5rem;
+}
+
+
+
+
 .main-logo{
     /* border: 1px solid tomato; */
     max-width: 12rem;
@@ -6,3 +16,27 @@
 .container {
     /* border: 1px solid tomato; */
 }
+
+.center-button{
+    display: flex;
+    justify-content: center;
+}
+
+
+.title {
+    font-weight: 300;
+}
+
+.btn-primary {
+    background: #F6AE04;
+}
+
+.btn-primary:hover {
+    background: #ce9104;
+}
+
+.btn-secondary {
+    border: 2px solid #F6AE04;
+    color: #bb8a18;
+}
+

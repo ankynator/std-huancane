@@ -16,9 +16,9 @@
             <div class="form-group">
                 {{ form.submit(class='btn btn-block btn-primary') }}
             </div>
+            <a href="{{ url_for('register_file_page') }}" class="btn btn-block btn-secondary">Iniciar nuevo tramite</a>
         </form>
 
-        <a href="{{ url_for('register_file_page') }}" class="btn ">Iniciar nuevo tramite</a>
 
     </div>
 {% endblock %}
