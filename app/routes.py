@@ -11,10 +11,10 @@ def home_page():
     form = SearchFileForm()
 
     if form.validate_on_submit():
-        attempend_file = File.query.filter_by(number_file=form.number_of_file.data).first()
+        attempend_file = File.query.filter_by(file_number_format=form.number_of_file.data).first()
         if attempend_file:
-            flash(f'Encontrado! {attempend_file.name_file}', category='success')
-            return redirect(url_for('view_file_page', number_of_file=attempend_file.number_file))
+            flash(f'Encontrado! {attempend_file.file_user_name}', category='success')
+            return redirect(url_for('view_file_page', file_number=attempend_file.file_number_format))
         else:
             flash('Expediente no encontrado, verifica bien el numero', category='danger')
 
@@ -52,7 +52,6 @@ def register_file_page():
         # return redirect(url_for('view_file_page', number_of_file=file_to_create.number_file))
         return redirect(url_for('view_file_page', file_number=file_to_create.file_number_format))
 
-    
     if form.errors != {}:
         for err_message in form.errors.values():
             flash(f'Ocurrio un error! {err_message[0]}', category='danger')
@@ -67,7 +66,6 @@ def view_file_page(file_number):
     only_date = datetime.datetime.strftime(date_and_time, '%Y/%m/%d:')
 
     return render_template('file.html', attempend_file=attempend_file, time=only_time, date=only_date)
-
 
 @app.route('/files')
 def files_page():

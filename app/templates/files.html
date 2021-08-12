@@ -9,16 +9,19 @@
             <tr>
                 <!-- Your Columns HERE -->
                 <th scope="col">ID</th>
-                <th scope="col">Name</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Justification</th>
             </tr>
         </thead>
         <tbody>
             <!-- Your rows inside the table HERE: -->
             {% for file in files %}
                 <tr>
-                    <td>{{ file.id }}</td>
-                    <td>{{ file.number_file }}</td>
-                    <td>{{ file.name_file }}</td>
+                    <td>{{ file.file_number_format }}</td>
+                    <td>{{ file.file_user_name }}</td>
+                    <td>{{ file.file_subject }}</td>
+                    <td>{{ file.file_justification }}</td>
                 </tr>
             {% endfor %}
         </tbody>
