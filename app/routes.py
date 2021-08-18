@@ -1,8 +1,8 @@
 import datetime
 from app import app
 from flask import render_template, redirect, url_for, flash
-from app.models import File
-from app.forms import SearchFileForm, RegisterFileForm
+from app.models import File, User
+from app.forms import SearchFileForm, RegisterFileForm, LoginUserForm, RegisterUserform
 from app import db
 
 @app.route('/', methods=['POST', 'GET'])
@@ -72,3 +72,31 @@ def files_page():
     files = File.query.all()
     return render_template('files.html', files = files)
 
+@app.route('/login', methods=['POST', 'GET'])
+def login_user():
+    form = LoginUserForm()
+    if form.validate_on_submit():
+        attemp_user = User.query.filter_by(username=form.username.data).first()
+        if attemp_user and attemp_user.check_password_correction(attempted_password=form.password.data):
+            flash(f'Inicio de sesion satisfactorio {attemp_user.username}', category='success')
+            return redirect(url_for('files_page'))
+        else:
+            flash('El nombre de usuario y la contraseña no coinciden! por favor intente de nuevo', category='danger')
+    return render_template('login_user.html', form=form)
+
+@app.route('/register_user', methods=['POST', 'GET']) 
+def register_user():
+    form = RegisterUserform()
+    if form.validate_on_submit():
+        user_to_create = User(username=form.username.data,
+                              password=form.password1.data)
+        db.session.add(user_to_create)
+        db.session.commit()
+
+        flash(f'Usuario registrado correctamente! Bienvenido {user_to_create.username}', category='success')
+        return redirect(url_for('files_page'))
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'Hubo un error registrando al usuario: {err_msg}', category='danger')
+
+    return render_template('register_user.html', form=form)

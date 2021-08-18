@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import Length, DataRequired, Email
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import Length, DataRequired, Email, EqualTo
 from wtforms.widgets.core import TextArea
 
 
@@ -25,3 +25,14 @@ class RegisterFileForm(FlaskForm):
     # email: idmevander@gmail
     # asunto: Solicito certificado de estudios
     # justificacion: Que por motivos de haber concluido mis estudios y ser este documento requisito de un proceso de postualacion a beca
+
+class RegisterUserform(FlaskForm):
+    username = StringField(label='Nombre de usuario', validators=[Length(min=2, max=30, message='Tu nombre de usuario es demasiado corto'), DataRequired()])
+    password1 = PasswordField(label='Contraseña', validators=[Length(min=6), DataRequired()])
+    password2 = PasswordField(label='Confirmar contraseña', validators=[EqualTo('password1', message='No coincide con la primera contraseña'), DataRequired()])
+    submit = SubmitField(label='Crear un usuario')
+
+class LoginUserForm(FlaskForm):
+    username = StringField(label='Nombre de usuario', validators=[DataRequired(message='Aqui pon tu usuario')])
+    password = PasswordField(label='Contraseña', validators=[DataRequired(message='Aqui pon la contraseña que creaste')])
+    submit = SubmitField(label='Iniciar Sesión')
